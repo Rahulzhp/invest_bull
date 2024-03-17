@@ -10,7 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./stock-table.component.css']
 })
 export class StockTableComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['symbol', 'ltp', 'stockMomentumRank', 'stockOutperformanceRank', 'open', 'low', 'high', 'openHighLowSignal', 'intradayScans', 'change'];
+  displayedColumns: string[] = ['symbol', 'ltp', 'stockMomentumRank', 'open', 'openHighLowSignal', 'change'];
   dataSource = new MatTableDataSource<Stock>();
 
   @ViewChild(MatSort) sort!: MatSort;
@@ -30,18 +30,21 @@ export class StockTableComponent implements OnInit, AfterViewInit {
       .subscribe(
         stocks => {
           console.log('Fetched stocks:', stocks);
-          const mappedStocks: Stock[] = stocks.map((stockData: any) => ({
-            symbol: stockData.symbol,
-            ltp: stockData.ltp,
-            stockMomentumRank: stockData.stockMomentumRank,
-            stockOutperformanceRank: stockData.stockOutperformanceRank,
-            open: stockData.open,
-            low: stockData.low,
-            high: stockData.high,
-            openHighLowSignal: stockData.openHighLowSignal,
-            intradayScans: stockData.intradayScans,
-            change: stockData.change
-          }));
+          const mappedStocks: Stock[] = stocks.map((stockData: any) => {
+            console.log('Intraday Scans for', stockData.symbol + ':', stockData.allScans.intradayScans);
+            return {
+              symbol: stockData.symbol,
+              ltp: stockData.ltp,
+              stockMomentumRank: stockData.stockMomentumRank,
+              stockOutperformanceRank: stockData.stockOutperformanceRank,
+              open: stockData.open,
+              low: stockData.low,
+              high: stockData.high,
+              openHighLowSignal: stockData.openHighLowSignal,
+              intradayScans: stockData.allScans?.intradayScans,
+              change: stockData.change
+            };
+          });
           this.dataSource.data = mappedStocks;
         },
         error => {
@@ -49,6 +52,7 @@ export class StockTableComponent implements OnInit, AfterViewInit {
         }
       );
   }
+
   getLTPColor(change: number): string {
     return change > 0 ? 'green' : change < 0 ? 'red' : 'black';
   }

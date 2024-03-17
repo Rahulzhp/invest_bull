@@ -1,0 +1,80 @@
+<div class="mat-elevation-z8 main container">
+    <div>
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" mat-table>
+
+
+            <ng-container matColumnDef="symbol">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Symbol </th>
+                <td mat-cell *matCellDef="let stock">
+                    <span class="icon-badge">{{ stock.symbol.charAt(0) }} </span>
+                    <span> {{ stock.symbol }}</span>
+                </td>
+            </ng-container>
+
+            <!-- Last Trade Price (LTP) Column -->
+            <ng-container matColumnDef="ltp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> LTP </th>
+                <td mat-cell *matCellDef="let stock" [style.color]="getLTPColor(stock)">
+                    {{ stock.ltp }}
+                </td>
+            </ng-container>
+
+            <!-- Stock Momentum Rank Column -->
+            <ng-container matColumnDef="stockMomentumRank">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock Momentum Rank </th>
+                <td mat-cell *matCellDef="let stock"> {{ stock.stockMomentumRank }} </td>
+            </ng-container>
+
+            <!-- Stock Outperformance Rank Column -->
+            <ng-container matColumnDef="stockOutperformanceRank">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock Outperformance Rank </th>
+                <td mat-cell *matCellDef="let stock"> {{ stock.stockOutperformanceRank }} </td>
+            </ng-container>
+
+            <!-- Open Column -->
+            <ng-container matColumnDef="open">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Open </th>
+                <td mat-cell *matCellDef="let stock"> {{ stock.open }} </td>
+            </ng-container>
+
+            <!-- Low Column -->
+            <ng-container matColumnDef="low">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Low </th>
+                <td mat-cell *matCellDef="let stock"> {{ stock.low }} </td>
+            </ng-container>
+
+            <!-- High Column -->
+            <ng-container matColumnDef="high">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> High </th>
+                <td mat-cell *matCellDef="let stock"> {{ stock.high }} </td>
+            </ng-container>
+
+            <!-- Open-High-Low Signal Column -->
+            <ng-container matColumnDef="openHighLowSignal">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Open-High-Low Signal </th>
+                <td mat-cell *matCellDef="let stock"> {{ stock.openHighLowSignal }} </td>
+            </ng-container>
+
+            <!-- Intraday Scans Column -->
+            <ng-container matColumnDef="intradayScans">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Intraday Scans </th>
+                <td mat-cell *matCellDef="let stock">
+                    <div *ngFor="let scan of stock.intradayScans" class="badge">{{ scan }}</div>
+                </td>
+            </ng-container>
+
+            <!-- Change Column -->
+            <ng-container matColumnDef="change">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Change </th>
+                <td mat-cell *matCellDef="let stock"> {{ stock.change }} </td>
+            </ng-container>
+
+            <!-- Table Rows -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <!-- Pagination -->
+        <mat-paginator [pageSizeOptions]="[2, 4, 6, 8]" showFirstLastButtons></mat-paginator>
+    </div>
+</div>

@@ -29,7 +29,7 @@
 
             </ng-container>
 
-            <!-- Last Trade Price (LTP) Column -->
+
             <ng-container matColumnDef="ltp">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> LTP </th>
                 <td style="font-weight: 500;" mat-cell *matCellDef="let stock" [style.color]="getLTPColor(stock)">
@@ -37,9 +37,9 @@
                 </td>
             </ng-container>
 
-            <!-- Stock Momentum Rank Column -->
-            <ng-container matColumnDef="stockMomentumRank">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Momentum </th>
+
+            <ng-container style="padding-left: 37px;" matColumnDef="stockMomentumRank">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding-left: 5px;"> Momentum </th>
                 <td mat-cell *matCellDef="let stock">
                     <div class="momentm">
                         <span> {{ stock.stockMomentumRank }} </span>
@@ -51,18 +51,23 @@
 
 
 
-            <!-- Open Column -->
+
             <ng-container matColumnDef="open">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> OPEN </th>
                 <td mat-cell *matCellDef="let stock"> {{ stock.open }} </td>
             </ng-container>
 
 
-            <!-- Open-High-Low Signal Column -->
+
             <ng-container matColumnDef="openHighLowSignal">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> TODAY'S RANGE </th>
-                <td mat-cell *matCellDef="let stock"> {{ stock.openHighLowSignal }} </td>
+                <td mat-cell *matCellDef="let stock" class="pipe_bar">
+                    <div class="graph">
+                        <div class="bar" [style.width.%]="calculatePercentage(stock.high, stock.low)"></div>
+                    </div>
+                </td>
             </ng-container>
+
 
             <!-- Intraday Scans Column -->
             <!-- <ng-container matColumnDef="intradayScans">
@@ -81,7 +86,7 @@
 
 
 
-            <!-- Change Column -->
+
             <ng-container matColumnDef="change">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> OHL </th>
                 <td mat-cell *matCellDef="let stock"
@@ -90,12 +95,12 @@
                 </td>
             </ng-container>
 
-            <!-- Table Rows -->
+
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
 
-        <!-- Pagination -->
-        <mat-paginator [pageSizeOptions]="[2, 4, 6, 8]" showFirstLastButtons></mat-paginator>
+
+        <mat-paginator [pageSizeOptions]="[9, 18, 27, 36,45,54]" showFirstLastButtons></mat-paginator>
     </div>
 </div>

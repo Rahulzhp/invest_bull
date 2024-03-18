@@ -3,6 +3,7 @@ import { StockService } from '../stock.service';
 import { Stock } from '../stock.model';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-stock-table',
@@ -14,7 +15,7 @@ export class StockTableComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Stock>();
 
   @ViewChild(MatSort) sort!: MatSort;
-
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(private stockService: StockService) { }
 
   ngOnInit(): void {
@@ -46,6 +47,7 @@ export class StockTableComponent implements OnInit, AfterViewInit {
             };
           });
           this.dataSource.data = mappedStocks;
+          this.dataSource.paginator = this.paginator;
         },
         error => {
           console.error('Error fetching stocks:', error);
@@ -56,4 +58,10 @@ export class StockTableComponent implements OnInit, AfterViewInit {
   getLTPColor(change: number): string {
     return change > 0 ? 'green' : change < 0 ? 'red' : 'black';
   }
+  calculatePercentage(high: number, low: number): number {
+    const totalRange = high - low;
+
+    return ((100 - totalRange));
+  }
+
 }
